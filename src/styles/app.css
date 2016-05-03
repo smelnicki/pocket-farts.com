@@ -1,6 +1,7 @@
 html,
 body {
   height: 100%;
+  background-color: #f7f7f7;
 }
 
 body: {
@@ -61,7 +62,13 @@ button {
   width: 50vmin;
   height: 50vmin;
 
-  background-color: #fff;
+  max-width: 250px;
+  max-height: 250px;
+
+  background-color: #f9f9f9;
+
+  border: 5px solid #eee;
+  box-shadow: 0 4px 14px #ccc;
 }
 
 .outer .inner {
