@@ -1,0 +1,95 @@
+html,
+body {
+  height: 100%;
+}
+
+body: {
+  margin: 0;
+}
+
+main {
+  padding: 20px;
+}
+
+html,
+body,
+input,
+textarea,
+button {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+}
+
+.header {
+  display: block;
+
+  width: 100%;
+
+  border-bottom: 0.1rem dotted #ddd;
+}
+
+.header.container {
+  line-height: 5.2rem;
+}
+
+.header-title {
+  text-align: center;
+
+  margin-top: 1.0rem;
+  margin-bottom: 1.0rem;
+}
+
+#content {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.outer,
+.outer .inner {
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outer {
+  width: 50vmin;
+  height: 50vmin;
+
+  background-color: #fff;
+}
+
+.outer .inner {
+  width: 40vmin;
+  height: 40vmin;
+
+  background-color: transparent;
+}
+
+.outer .inner img {
+  width: 85%;
+  height: 85%;
+
+  max-height: 128px;
+  max-width: 128px;
+}
+
+#installer {
+  position: absolute;
+  opacity: 0;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  transition: opacity 300ms ease-in-out;
+}
+
+#installer.available {
+  opacity: 1;
+}
+
