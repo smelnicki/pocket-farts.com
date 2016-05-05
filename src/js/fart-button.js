@@ -7,9 +7,6 @@ class FartButton {
     fartElement.addEventListener('mousedown', this.start.bind(this));
     fartElement.addEventListener('mouseup', this.stop.bind(this));
 
-    // fartElement.addEventListener('touchstart', this.start.bind(this));
-    // fartElement.addEventListener('touchend', this.stop.bind(this));
-
     this.el = fartElement;
   }
 
