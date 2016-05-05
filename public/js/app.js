@@ -1,125 +1,76 @@
-var babelHelpers = {};
-
-babelHelpers.classCallCheck = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
-
-babelHelpers.createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
-
-babelHelpers;
-
 /* globals window, fetch */
 
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioContext = new AudioContext();
 
-function getRandomFartFilename() {
+function getRandomFartFilename () {
   var min = 1;
   var max = 5;
 
   var number = Math.floor(Math.random() * (max - min + 1)) + min;
-  return "fart" + number + ".mp3";
+  return 'fart' + number + '.mp3';
 }
 
-function loadSound(callback) {
+function loadSound (callback) {
   var filename = getRandomFartFilename();
+  var url = 'sounds/' + filename;
 
-  return fetch("/sounds/" + filename).then(function (response) {
-    return response.arrayBuffer();
-  }).then(function (response) {
-    return audioContext.decodeAudioData(response, function (decodedAudioBuffer) {
-      callback(decodedAudioBuffer);
+  return fetch(url)
+    .then(function (response) {
+      return response.arrayBuffer();
+    })
+    .then(function (response) {
+      return audioContext.decodeAudioData(response, callback);
     });
-  });
 }
 
-var Fart = function () {
-  function Fart() {
-    babelHelpers.classCallCheck(this, Fart);
+function Fart () {
+  this.source = null;
+}
 
-    this.source = null;
-  }
+Fart.prototype.start = function () {
+  return loadSound(function (audioBuffer) {
+    this.source = audioContext.createBufferSource();
 
-  babelHelpers.createClass(Fart, [{
-    key: "start",
-    value: function start() {
-      var _this = this;
+    this.source.connect(audioContext.destination);
+    this.source.buffer = audioBuffer;
 
-      return loadSound(function (audioBuffer) {
-        _this.source = audioContext.createBufferSource();
+    this.source.onended = function () {
+      this.stop();
+    };
 
-        _this.source.connect(audioContext.destination);
-        _this.source.buffer = audioBuffer;
+    this.source.start();
+  });
+};
 
-        _this.source.onended = function () {
-          return _this.stop();
-        };
+Fart.prototype.stop = function () { };
 
-        _this.source.start();
-      });
-    }
-  }, {
-    key: "stop",
-    value: function stop() {
-      // console.log('stop audio source');
-    }
-  }]);
-  return Fart;
-}();
+var fart = new Fart();
 
-var FartButton = function () {
-  function FartButton(fartElement) {
-    babelHelpers.classCallCheck(this, FartButton);
+function FartButton (fartElement) {
+  this.el = fartElement;
 
-    this.fart = new Fart();
+  this.el.addEventListener('mousedown', this.start.bind(this));
+  this.el.addEventListener('mouseup', this.stop.bind(this));
+}
 
-    fartElement.addEventListener('mousedown', this.start.bind(this));
-    fartElement.addEventListener('mouseup', this.stop.bind(this));
+FartButton.prototype.start = function () {
+  this.el.classList.add('tapped');
 
-    this.el = fartElement;
-  }
+  fart.start().then(function () {
+    this.stop();
+  });
+};
 
-  babelHelpers.createClass(FartButton, [{
-    key: 'start',
-    value: function start() {
-      var _this = this;
+FartButton.prototype.stop = function () {
+  this.el.classList.remove('tapped');
 
-      this.el.classList.add('tapped');
-      this.fart.start().then(function () {
-        return _this.stop();
-      });
-    }
-  }, {
-    key: 'stop',
-    value: function stop() {
-      this.el.classList.remove('tapped');
-      this.fart.stop();
-    }
-  }]);
-  return FartButton;
-}();
+  fart.stop();
+};
 
 var $ = document.querySelector.bind(document);
-var fartElement = void 0;
-var fartButton = void 0; // eslint-disable-line no-unused-vars
+var fartElement;
+var fartButton; // eslint-disable-line no-unused-vars
 
 document.addEventListener('DOMContentLoaded', function () {
   fartElement = $('.outer');
@@ -127,11 +78,14 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js', { scope: '/' }).then(function () {
-    return console.log('ServiceWorker: registered');
-  });
+  navigator.serviceWorker
+    .register('/service-worker.js', { scope: '/' })
+    .then(function () {
+      console.log('ServiceWorker: registered');
+    });
 
-  navigator.serviceWorker.ready.then(function () {
-    return console.log('ServiceWorker: ready');
-  });
+  navigator.serviceWorker.ready
+    .then(function () {
+      console.log('ServiceWorker: ready');
+    });
 }
