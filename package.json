@@ -5,24 +5,33 @@
   "scripts": {
     "lint": "eslint src/",
     "test": "echo 'No tests specified' && exit 1",
-    "clean": "rimraf public/styles* public/js/*",
-    "copy-vendor": "mkdir -p public/styles && cp node_modules/milligram/dist/milligram.min.css public/styles/ && cp node_modules/normalize.css/normalize.css public/styles/",
-    "copy-styles": "cp src/styles/app.css public/styles",
-    "copy": "npm run copy-vendor && npm run copy-styles",
+    "clean": "rimraf public/styles* public/js/* public/vendor/*",
+    "copy-milligram": "gzip -nc node_modules/milligram/dist/milligram.css > public/vendor/milligram.css.gz",
+    "copy-normalize": "gzip -nc node_modules/normalize.css/normalize.css > public/vendor/normalize.css.gz",
+    "copy-whatwg-fetch": "gzip -nc node_modules/whatwg-fetch/fetch.js > public/vendor/fetch.js.gz",
+    "copy-es6-promise": "gzip -nc node_modules/es6-promise/dist/es6-promise.js > public/vendor/es6-promise.js.gz",
+    "copy-vendor": "mkdir -p public/vendor && npm run copy-milligram && npm run copy-normalize && npm run copy-whatwg-fetch && npm run copy-es6-promise",
+    "postcss": "postcss --use autoprefixer -d public/styles src/styles/app.css",
     "compile": "mkdir -p public/js && rollup --config rollup.config.js",
-    "build": "npm run clean && npm run copy && npm run compile",
+    "compress-app": "gzip -nc public/js/app.js > public/js/app.js.gz",
+    "compress-styles": "gzip -nc public/styles/app.css > public/styles/app.css.gz",
+    "compress-sw": "gzip -nc public/service-worker.js > public/service-worker.js.gz",
+    "compress": "npm run compress-app && npm run compress-styles && npm run compress-sw",
+    "build": "npm run clean && npm run copy-vendor && npm run postcss && npm run compile && npm run compress",
     "watch": "watch 'npm run build' src/",
     "serve": "http-server ./public -a localhost -p 3000",
     "start": "npm run watch & npm run serve"
   },
   "devDependencies": {
+    "autoprefixer": "^6.3.6",
     "babel-preset-es2015-rollup": "^1.1.1",
-    "browser-sync": "^2.12.5",
     "eslint": "^2.9.0",
     "eslint-config-standard": "^5.3.0",
     "eslint-plugin-promise": "^1.1.0",
     "eslint-plugin-standard": "^1.3.2",
     "http-server": "^0.9.0",
+    "postcss": "^5.0.21",
+    "postcss-cli": "^2.5.2",
     "rimraf": "^2.5.2",
     "rollup": "^0.26.2",
     "rollup-plugin-babel": "^2.4.0",
@@ -30,6 +39,8 @@
     "watch": "^0.18.0"
   },
   "dependencies": {
-    "milligram": "^1.1.0"
+    "es6-promise": "^3.1.2",
+    "milligram": "^1.1.0",
+    "whatwg-fetch": "^0.11.1"
   }
 }
