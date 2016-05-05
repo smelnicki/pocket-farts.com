@@ -31,24 +31,23 @@ babelHelpers;
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioContext = new AudioContext();
 
-// const audioBuffer;
-
 function getRandomFartFilename() {
   var min = 1;
   var max = 5;
 
   var number = Math.floor(Math.random() * (max - min + 1)) + min;
-  return 'fart' + number + '.mp3';
+  return "fart" + number + ".mp3";
 }
 
-function loadSound() {
+function loadSound(callback) {
   var filename = getRandomFartFilename();
-  var req = new Request('/sounds/' + filename);
 
-  return fetch(req).then(function (response) {
+  return fetch("/sounds/" + filename).then(function (response) {
     return response.arrayBuffer();
   }).then(function (response) {
-    return audioContext.decodeAudioData(response);
+    return audioContext.decodeAudioData(response, function (decodedAudioBuffer) {
+      callback(decodedAudioBuffer);
+    });
   });
 }
 
@@ -60,11 +59,11 @@ var Fart = function () {
   }
 
   babelHelpers.createClass(Fart, [{
-    key: 'start',
+    key: "start",
     value: function start() {
       var _this = this;
 
-      return loadSound().then(function (audioBuffer) {
+      return loadSound(function (audioBuffer) {
         _this.source = audioContext.createBufferSource();
 
         _this.source.connect(audioContext.destination);
@@ -78,9 +77,9 @@ var Fart = function () {
       });
     }
   }, {
-    key: 'stop',
+    key: "stop",
     value: function stop() {
-      console.log('stop audio source');
+      // console.log('stop audio source');
     }
   }]);
   return Fart;
@@ -94,9 +93,6 @@ var FartButton = function () {
 
     fartElement.addEventListener('mousedown', this.start.bind(this));
     fartElement.addEventListener('mouseup', this.stop.bind(this));
-
-    // fartElement.addEventListener('touchstart', this.start.bind(this));
-    // fartElement.addEventListener('touchend', this.stop.bind(this));
 
     this.el = fartElement;
   }
@@ -126,16 +122,16 @@ var fartElement = void 0;
 var fartButton = void 0; // eslint-disable-line no-unused-vars
 
 document.addEventListener('DOMContentLoaded', function () {
-  fartElement = $('#fart');
+  fartElement = $('.outer');
   fartButton = new FartButton(fartElement);
 });
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/service-worker.js', { scope: '/' }).then(function () {
-    return console.log('service worker registered');
+    return console.log('ServiceWorker: registered');
   });
 
   navigator.serviceWorker.ready.then(function () {
-    return console.log('service worker ready');
+    return console.log('ServiceWorker: ready');
   });
 }
