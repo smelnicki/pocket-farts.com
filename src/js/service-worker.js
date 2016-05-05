@@ -2,8 +2,8 @@
 
 import { version } from '../../package.json';
 
-const cacheName = `pocket-farts-${version}`;
-const filesToCache = [
+var cacheName = 'pocket-farts-' + version;
+var filesToCache = [
   '/',
   '/index.html',
   '/js/app.js',
@@ -15,26 +15,28 @@ const filesToCache = [
   '/sounds/fart5.mp3'
 ];
 
-this.addEventListener('install', (event) => {
+this.addEventListener('install', function (event) {
   console.log('ServiceWorker: install');
 
   event.waitUntil(
-    caches.open(cacheName).then((cache) => {
+    caches.open(cacheName).then(function (cache) {
       console.log('ServiceWorker: caching app files');
       return cache.addAll(filesToCache);
     })
   );
 });
 
-this.addEventListener('activate', (event) => {
+this.addEventListener('activate', function (event) {
   event.waitUntil(self.clients.claim());
 });
 
-this.addEventListener('fetch', (event) => {
+this.addEventListener('fetch', function (event) {
   console.log('ServiceWorker: fetch', event.request.url);
 
   event.respondWith(
-    caches.match(event.request).then((response) => response || fetch(event.request))
+    caches.match(event.request).then(function (response) {
+      return response || fetch(event.request);
+    })
   );
 });
 

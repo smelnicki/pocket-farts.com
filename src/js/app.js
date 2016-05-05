@@ -2,11 +2,11 @@
 
 import FartButton from './fart-button.js';
 
-const $ = document.querySelector.bind(document);
-let fartElement;
-let fartButton; // eslint-disable-line no-unused-vars
+var $ = document.querySelector.bind(document);
+var fartElement;
+var fartButton; // eslint-disable-line no-unused-vars
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function () {
   fartElement = $('.outer');
   fartButton = new FartButton(fartElement);
 });
@@ -14,9 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
     .register('/service-worker.js', { scope: '/' })
-    .then(() => console.log('ServiceWorker: registered'));
+    .then(function () {
+      console.log('ServiceWorker: registered');
+    });
 
   navigator.serviceWorker.ready
-    .then(() => console.log('ServiceWorker: ready'));
+    .then(function () {
+      console.log('ServiceWorker: ready');
+    });
 }
 
