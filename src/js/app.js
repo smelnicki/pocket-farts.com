@@ -7,16 +7,16 @@ let fartElement;
 let fartButton; // eslint-disable-line no-unused-vars
 
 document.addEventListener('DOMContentLoaded', () => {
-  fartElement = $('#fart');
+  fartElement = $('.outer');
   fartButton = new FartButton(fartElement);
 });
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
     .register('/service-worker.js', { scope: '/' })
-    .then(() => console.log('service worker registered'));
+    .then(() => console.log('ServiceWorker: registered'));
 
   navigator.serviceWorker.ready
-    .then(() => console.log('service worker ready'));
+    .then(() => console.log('ServiceWorker: ready'));
 }
 
