@@ -84,8 +84,6 @@ button {
 }
 
 .outer {
-  cursor: pointer;
-
   width: 50vmin;
   height: 50vmin;
 

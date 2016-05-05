@@ -26,7 +26,7 @@ babelHelpers.createClass = function () {
 
 babelHelpers;
 
-/* globals window, Request, fetch */
+/* globals window, fetch */
 
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioContext = new AudioContext();
