@@ -3,8 +3,6 @@
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioContext();
 
-// const audioBuffer;
-
 function getRandomFartFilename () {
   const min = 1;
   const max = 5;
@@ -13,13 +11,14 @@ function getRandomFartFilename () {
   return `fart${number}.mp3`;
 }
 
-function loadSound () {
+function loadSound (callback) {
   const filename = getRandomFartFilename();
-  const req = new Request(`/sounds/${filename}`);
 
-  return fetch(req)
+  return fetch(`/sounds/${filename}`)
     .then((response) => response.arrayBuffer())
-    .then((response) => audioContext.decodeAudioData(response));
+    .then((response) => audioContext.decodeAudioData(response, (decodedAudioBuffer) => {
+      callback(decodedAudioBuffer);
+    }));
 }
 
 class Fart {
@@ -28,7 +27,7 @@ class Fart {
   }
 
   start () {
-    return loadSound().then((audioBuffer) => {
+    return loadSound((audioBuffer) => {
       this.source = audioContext.createBufferSource();
 
       this.source.connect(audioContext.destination);
@@ -41,7 +40,7 @@ class Fart {
   }
 
   stop () {
-    console.log('stop audio source');
+    // console.log('stop audio source');
   }
 }
 
