@@ -1,6 +1,6 @@
 {
   "name": "pocket-farts",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": "Stephen Melnicki <smelnicki3@gmail.com>",
   "scripts": {
     "lint": "eslint src/",
@@ -12,7 +12,7 @@
     "copy-es6-promise": "cp node_modules/es6-promise/dist/es6-promise.js public/vendor",
     "copy-vendor": "mkdir -p public/vendor && npm run copy-milligram && npm run copy-normalize && npm run copy-whatwg-fetch && npm run copy-es6-promise",
     "postcss": "postcss --use autoprefixer -d public/styles src/styles/app.css",
-    "compile": "mkdir -p public/js && rollup --config rollup.config.js",
+    "compile": "mkdir -p public/js && rollup --config build.config.js",
     "compress-app": "gzip -nc public/js/app.js > public/js/app.js.gz",
     "compress-styles": "gzip -nc public/styles/app.css > public/styles/app.css.gz",
     "compress-sw": "gzip -nc public/service-worker.js > public/service-worker.js.gz",
