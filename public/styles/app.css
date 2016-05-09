@@ -1,11 +1,13 @@
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+}
+
 html,
 body {
   height: 100%;
   background-color: #f7f7f7;
-}
-
-body: {
-  margin: 0;
+  font-size: 18px;
 }
 
 main {
@@ -89,18 +91,12 @@ button {
 
   max-width: 250px;
   max-height: 250px;
-
-  background-color: #f9f9f9;
-
-  border: 5px solid #eee;
-  box-shadow: 0 4px 14px #ccc;
 }
 
 .outer .inner {
   width: 40vmin;
   height: 40vmin;
 
-  background-color: transparent;
 }
 
 .outer .inner img {
@@ -111,18 +107,45 @@ button {
   max-width: 128px;
 }
 
-#installer {
-  position: absolute;
-  opacity: 0;
-  bottom: 20px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  -webkit-transition: opacity 300ms ease-in-out;
-  transition: opacity 300ms ease-in-out;
+.outer {
+  cursor: pointer;
+
+  background-color: #f9f9f9;
+
+  -webkit-transition: 0.1s ease-out;
+
+  transition: 0.1s ease-out;
+
+  box-shadow: inset 0 0 5px 0 #fff;
+  border-width: 1px;
+  border-style: solid;
+  border-left-color: #ddd;
+  border-right-color: #ddd;
+  border-top-color: #dde;
+  border-bottom: 4px solid #ccc;
+
+  -webkit-user-select: none;
+
+     -moz-user-select: none;
+
+      -ms-user-select: none;
+
+          user-select: none;
 }
 
-#installer.available {
-  opacity: 1;
+.outer:active {
+  margin-top: 4px;
+  color: #777;
+  border: 1px solid #bbb;
+
+  box-shadow: inset 0 0 5px 0 #bbb;
 }
 
+.outer:hover,
+.outer:focus {
+  outline: none;
+}
+
+.outer .inner {
+  background-color: transparent;
+}

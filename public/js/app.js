@@ -3,53 +3,51 @@
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioContext = new AudioContext();
 
-function getRandomFartFilename () {
-  var min = 1;
-  var max = 5;
+var buffers = [];
 
-  var number = Math.floor(Math.random() * (max - min + 1)) + min;
-  return 'fart' + number + '.mp3';
+function saveAudioBuffer (audioBuffer) {
+  buffers.push(audioBuffer);
 }
 
-function loadSound (callback) {
-  var filename = getRandomFartFilename();
-  var url = 'sounds/' + filename;
+function fetchSounds () {
+  for (var i = 1; i < 6; i++) {
+    var filename = 'fart' + i + '.mp3';
+    var url = 'sounds/' + filename;
 
-  return fetch(url)
-    .then(function (response) {
-      return response.arrayBuffer();
-    })
-    .then(function (response) {
-      return audioContext.decodeAudioData(response, callback);
-    });
+    fetch(url)
+      .then(function (response) {
+        return response.arrayBuffer();
+      })
+      .then(function (response) {
+        return audioContext.decodeAudioData(response, saveAudioBuffer);
+      });
+  }
+}
+
+function selectRandomAudioBuffer () {
+  var index = Math.floor(Math.random() * buffers.length);
+  return buffers[index];
 }
 
 function Fart () {
-  this.source = null;
+  fetchSounds();
 }
 
-Fart.prototype.start = function () {
-  return loadSound(function (audioBuffer) {
-    this.source = audioContext.createBufferSource();
+Fart.prototype.play = function () {
+  var source = audioContext.createBufferSource();
 
-    this.source.connect(audioContext.destination);
-    this.source.buffer = audioBuffer;
+  source.buffer = selectRandomAudioBuffer();
+  source.connect(audioContext.destination);
 
-    this.source.onended = function () {
-      this.stop();
-    };
+  source.loop = false;
 
-    this.source.start();
-  });
+  source.start();
 };
 
-Fart.prototype.stop = function () { };
-
-var fart = new Fart();
-
 function FartButton (fartElement) {
-  this.el = fartElement;
+  this.fart = new Fart();
 
+  this.el = fartElement;
   this.el.addEventListener('mousedown', this.start.bind(this));
   this.el.addEventListener('mouseup', this.stop.bind(this));
 }
@@ -57,15 +55,11 @@ function FartButton (fartElement) {
 FartButton.prototype.start = function () {
   this.el.classList.add('tapped');
 
-  fart.start().then(function () {
-    this.stop();
-  });
+  this.fart.play();
 };
 
 FartButton.prototype.stop = function () {
-  this.el.classList.remove('tapped');
-
-  fart.stop();
+  // this.el.classList.remove('tapped');
 };
 
 var $ = document.querySelector.bind(document);
