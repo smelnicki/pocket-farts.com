@@ -1,6 +1,7 @@
-## pocket farts
+### pocket farts
 
 Because... who wouldn't want a progressive web fart app?
+
 
 ### Introduction
 
@@ -27,9 +28,8 @@ Now that's quite a bit to consume, so I'll break it down. I would say the defini
 * **Installable** - Can be 'installed' via adding to the homescreen. No app store required.
 * **App-like** - After it has been installed, indistinguishable in appearance and behavior from a native app.
 
-That last bit is the most important. And that's what I've attmped to prove, in concept at least.
+That last bit is the most important. And that's what pocket farts attempts to demonstrate.
 
-I'll elaborate more on each point, shortly. For now, on with the show.
 
 ### Installation
 
@@ -45,8 +45,10 @@ And after you've 'installed' it, start it up and it should look like the genuine
 
 ![screenshot-post-install](https://raw.githubusercontent.com/smelnicki/pocket-farts.com/master/screenshots/post-install.png)
 
+
 ### Structure
 
+Pocket fart's structure breaks down to the following:
 ```
 .
 ├── LICENSE.md            # licenses are important
@@ -56,35 +58,41 @@ And after you've 'installed' it, start it up and it should look like the genuine
 ├── package.json          # json file containing all required dependencies and houses all commands
 ├── screenshots           # self explanatory
 └── src
-    ├── favicon.ico         # app icon to show up in your browser tab
-    ├── img                 # images directory
+    ├── favicon.ico   # app icon to show up in your browser tab
+    ├── img           # images directory
     │   ├── apple-touch-icon-*.png  # app icons for apple tablet and phone (and their respective retina flavors)
-    │   ├── icon-*.png      # app icons for android tablet and phone
-    │   └── icon.png        # image for the app's button
-    ├── index.html          # self explanatory. includes meta information to configure 'installation' for chrome and safari
-    ├── js                  # app's source files
-    │   ├── app.js          # application entry point. initializes the fart button and service worker.
-    │   ├── fart-button.js  # click event binding to fire off fart noises
-    │   ├── fart.js         # handles making network requests and playing .mp3 files
-    │   └── service-worker.js       # service worker config. caches resources and serves them whenever a network request comes through matching one.
-    ├── manifest.json       # web app manifest file
+    │   ├── icon-*.png    # app icons for android tablet and phone
+    │   └── icon.png      # image for the app's button
+    ├── index.html        # self explanatory. includes meta information to configure 'installation' for chrome and safari
+    ├── js
+    │   ├── app.js            # application entry point. initializes the fart button and service worker.
+    │   ├── fart-button.js    # click event binding to fire off fart noises
+    │   ├── fart.js           # handles making network requests and playing .mp3 files
+    │   └── service-worker.js # service worker config. caches resources and serves them whenever a network request comes through matching one.
+    ├── manifest.json         # web app manifest file
     ├── sounds
-    │   ├── fart*.mp3     # various fart sounds
+    │   ├── fart*.mp3   # our various fart sounds
     └── styles
-        └── app.css       # app stylesheet
+        └── app.css   # app stylesheet
 ├── node_modules    # self explanatory
-└── dist            # build artifact directory
+└── dist    # build artifact directory
 ```
 
 
 ### Quickstart
 
+You'll need to have node and npm already installed. I use v5.9.0 and 3.7.3, respectively.
+
+On mac, I recommend installing via [homebrew](http://brew.sh/).
 ```
-# You'll need node and npm installed.
-# I use node v5.9.0 and npm 3.7.3
+brew install node
+
 node --version
 npm --version
+```
 
+Then, to get up and running:
+```
 npm install     # install all required dependencies
 npm start       # compiles source and starts up a server at http://localhost:3000
 ```
@@ -96,8 +104,8 @@ The entire app is controlled via npm scripts.
 They're all pretty straightforward, with some additional ones to simply streamline similar commands.
 
 ```
-npm run lint    # runs the linter on all javascript files under src/
-npm run clean   # removes the directory where we place all generated assets, dist/
+npm run lint  # runs the linter on all javascript files under src/
+npm run clean # removes the directory where we place all generated assets, dist/
 npm run copy-static   # copies all static assets (like index.html, manifest.json and favicon() to dist/
 npm run copy-sounds   # copies all sound files to dist/sounds
 npm run copy-img      # copies all images to dist/sounds
@@ -115,14 +123,16 @@ npm start       # runs 'build' and 'serve' commands simultaneously
 
 ### License
 
-WTFPL. See [LICENSE.md](https://raw.githubusercontent.com/smelnicki/pocket-farts.com/master/LICENSE.md).
+WTFPL.
+
+See [LICENSE.md](https://raw.githubusercontent.com/smelnicki/pocket-farts.com/master/LICENSE.md).
 
 ### Credit
 
 There were a number of sources of inspiration here, so I'll do my best to credit each one.
 
-* [Ken Wheeler](https://github.com/kenwheeler) and his amazing [app](https://twitter.com/ken_wheeler/status/581171786747899904) from months past.
-* [airhorner.com](https://airhorner.com/) and its subsequent [breakdown](https://developers.google.com/web/fundamentals/getting-started/your-first-offline-web-app/) ala Google Developer network. Thanks, Google!
+* [Ken Wheeler](https://github.com/kenwheeler) and his [react native fart app](https://twitter.com/ken_wheeler/status/581171786747899904) from months past.
+* [airhorner.com](https://airhorner.com/) and its subsequent [breakdown](https://developers.google.com/web/fundamentals/getting-started/your-first-offline-web-app/) ala Google Developer network.
 * [Nolan Lawson](https://github.com/nolanlawson) and his [pokedex](https://www.pokedex.org/) project.
 
 ### Contributing
