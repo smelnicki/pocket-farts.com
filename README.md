@@ -22,61 +22,13 @@ They go on further to say,
 > over time, it becomes more and more powerful. It loads quickly, even on flaky networks, sends relevant push notifications,
 > has an icon on the home screen and loads as top-level, full screen experience.
 
-Now that's quite a bit to consume, so I'll break it down. I would say the defining qualities of a progressive web app are:
+Now that's quite a bit to consume, so I'll simplfiy. The defining qualities of a progressive web app are:
 
 * **Responsive** - Seamlessly supports desktop, tablet and mobile.
 * **Installable** - Can be 'installed' via adding to the homescreen. No app store required.
 * **App-like** - After it has been installed, indistinguishable in appearance and behavior from a native app.
 
 That last bit is the most important. And that's what pocket farts attempts to demonstrate.
-
-
-### Installation
-
-To try it out live, grab your favorite device and open it up to [pocket-farts.com](https://pocket-farts.com).
-
-![screenshot-pre-install](https://raw.githubusercontent.com/smelnicki/pocket-farts.com/master/screenshots/pre-install.png)
-
-If you're on safari, you can install via the 'add to homescreen button'
-
-![add-to-homescreen](https://raw.githubusercontent.com/smelnicki/pocket-farts.com/master/screenshots/add-to-homescreen.gif)
-
-And after you've 'installed' it, start it up and it should look like the genuine article
-
-![screenshot-post-install](https://raw.githubusercontent.com/smelnicki/pocket-farts.com/master/screenshots/post-install.png)
-
-
-### Structure
-
-Pocket fart's structure breaks down to the following:
-```
-.
-├── LICENSE.md            # licenses are important
-├── README.md             # what you're reading right meow
-├── build.config.js       # rollup.js configuration to bundle my javascript files together
-├── npm-shrinkwrap.json   # version locking my dependencies
-├── package.json          # json file containing all required dependencies and houses all commands
-├── screenshots           # self explanatory
-└── src
-    ├── favicon.ico   # app icon to show up in your browser tab
-    ├── img           # images directory
-    │   ├── apple-touch-icon-*.png  # app icons for apple tablet and phone (and their respective retina flavors)
-    │   ├── icon-*.png    # app icons for android tablet and phone
-    │   └── icon.png      # image for the app's button
-    ├── index.html        # self explanatory. includes meta information to configure 'installation' for chrome and safari
-    ├── js
-    │   ├── app.js            # application entry point. initializes the fart button and service worker.
-    │   ├── fart-button.js    # click event binding to fire off fart noises
-    │   ├── fart.js           # handles making network requests and playing .mp3 files
-    │   └── service-worker.js # service worker config. caches resources and serves them whenever a network request comes through matching one.
-    ├── manifest.json         # web app manifest file
-    ├── sounds
-    │   ├── fart*.mp3   # our various fart sounds
-    └── styles
-        └── app.css   # app stylesheet
-├── node_modules    # self explanatory
-└── dist    # build artifact directory
-```
 
 
 ### Quickstart
@@ -97,6 +49,39 @@ npm install     # install all required dependencies
 npm start       # compiles source and starts up a server at http://localhost:3000
 ```
 
+### Structure
+
+Pocket fart's structure breaks down to the following:
+```
+.
+├── LICENSE.md                # licenses are important
+├── README.md                 # what you're reading right meow
+├── build.config.js           # rollup.js configuration to bundle my javascript files together
+├── npm-shrinkwrap.json       # version locking my dependencies
+├── package.json              # json file containing all required dependencies and houses all commands
+├── screenshots               # self explanatory
+└── src
+    ├── favicon.ico           # app icon to show up in your browser tab
+    ├── img                   # images directory
+    │   ├── apple-touch-icon-*.png  # app icons for apple tablet and phone (and their respective retina flavors)
+    │   ├── icon-*.png        # app icons for android tablet and phone
+    │   └── icon.png          # image for the app's button
+    ├── index.html            # self explanatory. includes meta information to configure 'installation' for chrome and safari
+    ├── js
+    │   ├── app.js            # application entry point. initializes the fart button and service worker.
+    │   ├── fart-button.js    # click event binding to fire off fart noises
+    │   ├── fart.js           # handles making network requests and playing .mp3 files
+    │   └── service-worker.js # service worker config. caches resources and serves them whenever a network request comes through matching one.
+    ├── manifest.json         # web app manifest file
+    ├── sounds
+    │   ├── fart*.mp3         # our various fart sounds
+    └── styles
+        └── app.css           # app stylesheet
+├── node_modules              # self explanatory
+└── dist                      # build artifact directory
+```
+
+
 ### Commands
 
 The entire app is controlled via npm scripts.
@@ -104,28 +89,36 @@ The entire app is controlled via npm scripts.
 They're all pretty straightforward, with some additional ones to simply streamline similar commands.
 
 ```
-npm run lint  # runs the linter on all javascript files under src/
-npm run clean # removes the directory where we place all generated assets, dist/
-npm run copy-static   # copies all static assets (like index.html, manifest.json and favicon() to dist/
-npm run copy-sounds   # copies all sound files to dist/sounds
-npm run copy-img      # copies all images to dist/sounds
-npm run assets        # runs the previous three commands sequentially
+npm run lint                # runs the linter on all javascript files under src/
+npm run clean               # removes the directory where we place all generated assets, dist/
+npm run copy-static         # copies all static assets (like index.html, manifest.json and favicon() to dist/
+npm run copy-sounds         # copies all sound files to dist/sounds
+npm run copy-img            # copies all images to dist/sounds
+npm run assets              # runs the previous three commands sequentially
 npm run copy-whatwg-fetch   # minifies fetch() polyfill and ouputs result to dist/vendor
 npm run copy-es6-promise    # minifies promise polyfill and output result to dist/vendor
-npm run vendor  # runs the previous two commands
-npm run css     # runs the postcss processor on src/styles/app.css and outputs result to dist/styles
-npm run compile # runs rollup.js with config from build.config.js file
-npm run build   # cleans, copies assets, minifies vendor polyfills, and compiles javascript
-npm run watch   # watches the 'src/' directory and runs build command on any change
-npm run serve   # spins up an http server from the dist/ directory on localhost:3000
-npm start       # runs 'build' and 'serve' commands simultaneously
+npm run vendor              # runs the previous two commands
+npm run css                 # runs the postcss processor on src/styles/app.css and outputs result to dist/styles
+npm run compile             # runs rollup.js with config from build.config.js file
+npm run build               # cleans, copies assets, minifies vendor polyfills, and compiles javascript
+npm run watch               # watches the 'src/' directory and runs build command on any change
+npm run serve               # spins up an http server from the dist/ directory on localhost:3000
+npm start                   # runs 'build' and 'serve' commands simultaneously
 ```
 
-### License
+### Installation
 
-WTFPL.
+To try it out live, navigate to [pocket-farts.com](https://pocket-farts.com).
 
-See [LICENSE.md](https://raw.githubusercontent.com/smelnicki/pocket-farts.com/master/LICENSE.md).
+If you're on safari, you can install via the 'add to homescreen button'
+
+![add-to-homescreen](https://raw.githubusercontent.com/smelnicki/pocket-farts.com/master/screenshots/add-to-homescreen.gif)
+
+If you're on android, you'll receive a prompt to save to the homescreen during your second visit, provided
+at least five minutes have passed.
+
+Unfortunately, I still need to download android studio, so android screenshots are still pending.
+
 
 ### Credit
 
@@ -135,9 +128,16 @@ There were a number of sources of inspiration here, so I'll do my best to credit
 * [airhorner.com](https://airhorner.com/) and its subsequent [breakdown](https://developers.google.com/web/fundamentals/getting-started/your-first-offline-web-app/) ala Google Developer network.
 * [Nolan Lawson](https://github.com/nolanlawson) and his [pokedex](https://www.pokedex.org/) project.
 
+
 ### Contributing
 
 Got an idea? Comment? Concern?
 
 Take a gander at [CONTRIBUTING.md](https://raw.githubusercontent.com/smelnicki/pocket-farts.com/master/CONTRIBUTING.md) and feel free to submit an issue.
 
+
+### License
+
+WTFPL.
+
+See [LICENSE.md](https://raw.githubusercontent.com/smelnicki/pocket-farts.com/master/LICENSE.md).
