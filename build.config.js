@@ -6,7 +6,7 @@ rollup.rollup({
   plugins: [json()]
 }).then(function (bundle) {
   bundle.write({
-    dest: './public/service-worker.js'
+    dest: './dist/service-worker.js'
   });
 }).catch(function (error) {
   console.error(JSON.stringify(error, null, 2));
@@ -14,5 +14,5 @@ rollup.rollup({
 
 export default {
   entry: './src/js/app.js',
-  dest: './public/js/app.js'
+  dest: './dist/js/app.js'
 }
