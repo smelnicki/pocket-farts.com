@@ -1,11 +1,11 @@
-### pocket farts
+### Pocket Farts
 
 Because... who wouldn't want a progressive web fart app?
 
 
 ### Quickstart
 
-You'll need to have node and npm already installed. I use v5.9.0 and 3.7.3, respectively.
+You'll need to have node and npm already installed. I use `v5.9.0` and `3.7.3`, respectively.
 
 On mac, I recommend installing via [homebrew](http://brew.sh/).
 ```
@@ -49,7 +49,7 @@ There were a number of sources of inspiration here, so I'll do my best to credit
 
 Got an idea? Comment? Concern?
 
-Take a gander at [CONTRIBUTING.md](https://raw.githubusercontent.com/smelnicki/pocket-farts.com/master/CONTRIBUTING.md) and feel free to submit an issue.
+Feel free to submit an issue or a pull request.
 
 
 ### License
