@@ -21,9 +21,8 @@ var filesToCache = [
   '/sounds/fart5.mp3'
 ];
 
-
 // populate the browser's offline cache with our app files
-function cacheAppResources (event) {
+this.addEventListener('install', function (event) {
   console.log('ServiceWorker: install');
 
   event.waitUntil(
@@ -32,10 +31,10 @@ function cacheAppResources (event) {
       return cache.addAll(filesToCache);
     })
   );
-}
+});
 
 // delete any old caches we've saved under current `cacheName`
-function clearPreviousCache (event) {
+this.addEventListener('activate', function (event) {
   console.log('ServiceWorker: activate');
 
   event.waitUntil(
@@ -47,10 +46,10 @@ function clearPreviousCache (event) {
       }));
     })
   );
-}
+});
 
 // hijack http request to serve cached versions of the resource (if available)
-function serveCachedResource (event) {
+this.addEventListener('fetch', function (event) {
   console.log('ServiceWorker: fetch', event.request.url);
 
   event.respondWith(
@@ -58,11 +57,5 @@ function serveCachedResource (event) {
       return response || fetch(event.request);
     })
   );
-}
-
-// bind to service worker lifecycle events
-// https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers#Basic_architecture
-this.addEventListener('install', cacheAppResources);
-this.addEventListener('activate', clearPreviousCache);
-this.addEventListener('fetch', serveCachedResource);
+});
 
