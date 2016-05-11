@@ -38,7 +38,7 @@ this.addEventListener('activate', function (event) {
   console.log('ServiceWorker: activate');
 
   event.waitUntil(
-    caches.keys.then(function (keyList) {
+    caches.keys().then(function (keyList) {
       return Promise.all(keyList.map(function (key) {
         if (cacheName.indexOf(key) === -1) {
           return caches.delete(key);

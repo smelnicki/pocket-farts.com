@@ -24,7 +24,7 @@ npm start       # compiles source and starts up a server at http://localhost:300
 
 ### Installation
 
-To try it out live, navigate to [pocket-farts.com](https://pocket-farts.com).
+To try it out live, navigate to [https://pocket-farts.com](https://pocket-farts.com).
 
 If you're on safari, you can install via the 'add to homescreen button'
 
