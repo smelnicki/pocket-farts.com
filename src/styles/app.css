@@ -7,11 +7,7 @@ html,
 body {
   height: 100%;
   background-color: #f7f7f7;
-  font-size: 18px;
-}
-
-main {
-  padding: 20px;
+  font-size: 16px;
 }
 
 html,
@@ -32,23 +28,29 @@ button {
   border-bottom: 0.1rem dotted #ddd;
 }
 
-.header.container {
-  line-height: 5.2rem;
-}
-
 .header-title {
   text-align: center;
 
   margin-top: 1.0rem;
   margin-bottom: 1.0rem;
+
+  color: #606c76;
+  font-family: sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.01em;
 }
 
 #content {
   height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
+
   flex-direction: column;
+  justify-content: center;
+
+  padding-left: 20px;
+  padding-right: 20px;
+
+  align-items: center;
 }
 
 .outer,
@@ -71,7 +73,6 @@ button {
 .outer .inner {
   width: 40vmin;
   height: 40vmin;
-
 }
 
 .outer .inner img {
