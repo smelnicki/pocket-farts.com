@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "Stephen Melnicki <smelnicki3@gmail.com>",
   "scripts": {
-    "lint": "eslint js/",
+    "lint": "eslint src/js/",
     "clean": "rimraf dist",
     "copy-static": "cp src/index.html dist/ && cp src/manifest.json dist/ && cp src/favicon.ico dist/",
     "copy-sounds": "cp -r src/sounds dist/",
