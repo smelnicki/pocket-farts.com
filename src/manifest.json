@@ -18,6 +18,10 @@
     "src": "img/icon-192x192.png",
     "sizes": "192x192",
     "type": "image/png"
+  }, {
+    "src": "img/icon-256x256.png",
+    "sizes": "256x256",
+    "type": "image/png"
   }],
   "start_url": "./",
   "display": "standalone",
