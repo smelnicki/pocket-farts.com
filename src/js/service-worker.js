@@ -1,11 +1,17 @@
-/* globals self, fetch, caches */
+/* globals fetch, caches */
 
 import { version } from '../../package.json';
 
+// cache namespace we'll save our resources under
 var cacheName = 'pocket-farts-' + version;
+
+// all app resources we want to available in the cache
 var filesToCache = [
   '/',
   '/index.html',
+  '/styles/app.css',
+  '/vendor/es6-promise.js',
+  '/vendor/fetch.js',
   '/js/app.js',
   '/img/icon.png',
   '/sounds/fart1.mp3',
@@ -15,7 +21,9 @@ var filesToCache = [
   '/sounds/fart5.mp3'
 ];
 
-this.addEventListener('install', function (event) {
+
+// populate the browser's offline cache with our app files
+function cacheAppResources (event) {
   console.log('ServiceWorker: install');
 
   event.waitUntil(
@@ -24,13 +32,25 @@ this.addEventListener('install', function (event) {
       return cache.addAll(filesToCache);
     })
   );
-});
+}
 
-this.addEventListener('activate', function (event) {
-  event.waitUntil(self.clients.claim());
-});
+// delete any old caches we've saved under current `cacheName`
+function clearPreviousCache (event) {
+  console.log('ServiceWorker: activate');
 
-this.addEventListener('fetch', function (event) {
+  event.waitUntil(
+    caches.keys.then(function (keyList) {
+      return Promise.all(keyList.map(function (key) {
+        if (cacheName.indexOf(key) === -1) {
+          return caches.delete(key);
+        }
+      }));
+    })
+  );
+}
+
+// hijack http request to serve cached versions of the resource (if available)
+function serveCachedResource (event) {
   console.log('ServiceWorker: fetch', event.request.url);
 
   event.respondWith(
@@ -38,5 +58,11 @@ this.addEventListener('fetch', function (event) {
       return response || fetch(event.request);
     })
   );
-});
+}
+
+// bind to service worker lifecycle events
+// https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers#Basic_architecture
+this.addEventListener('install', cacheAppResources);
+this.addEventListener('activate', clearPreviousCache);
+this.addEventListener('fetch', serveCachedResource);
 
