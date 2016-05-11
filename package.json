@@ -16,7 +16,7 @@
     "compile": "mkdir -p dist/js && rollup --config build.config.js",
     "build": "npm run clean && npm run assets && npm run vendor && npm run css && npm run compile",
     "watch": "watch 'npm run build' src/",
-    "serve": "http-server ./public -a localhost -p 3000",
+    "serve": "http-server ./dist -a localhost -p 3000",
     "start": "npm run watch & npm run serve"
   },
   "devDependencies": {
